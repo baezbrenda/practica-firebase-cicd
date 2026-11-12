@@ -13,7 +13,7 @@
           { "key": "X-Frame-Options", "value": "DENY" },
           { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
           { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-          { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" },
+          { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self'; img-src 'self' https://picsum.photos https://fastly.picsum.photos; connect-src 'self' https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://us-east4-firebasedataconnect.googleapis.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'" },
           { "key": "Cache-Control", "value": "no-cache" }
         ]
       },
@@ -24,5 +24,13 @@
         ]
       }
     ]
+  },
+  "dataconnect": { "source": "dataconnect" },
+  "emulators": {
+    "auth": { "port": 9099 },
+    "dataconnect": { "port": 9399, "dataDir": "dataconnect/.dataconnect/pgliteData" },
+    "hosting": { "port": 5000 },
+    "ui": { "enabled": true },
+    "singleProjectMode": true
   }
 }
