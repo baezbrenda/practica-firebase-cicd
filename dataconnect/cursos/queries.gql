@@ -1,0 +1,46 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  Queries del conector `cursos`.
+#  Cada operación DEBE declarar quién puede ejecutarla con @auth:
+#    PUBLIC     → cualquiera, incluso sin login (exige justificar con insecureReason)
+#    USER       → cualquier usuario autenticado con Firebase Auth
+#    NO_ACCESS  → nadie desde el cliente (solo herramientas de admin)
+# ─────────────────────────────────────────────────────────────────────────────
+
+# Catálogo: lo puede ver cualquiera.
+query ListCursos @auth(level: PUBLIC, insecureReason: "El catálogo de cursos es información pública.") {
+  cursos(orderBy: { titulo: ASC }) {
+    id
+    titulo
+    nivel
+    horas
+    descripcion
+    cupo
+  }
+}
+
+# ⚠️ Operación heredada. Corregida: se pasa a NO_ACCESS para evitar fuga de datos personales (IDOR / exposición masiva).
+query ListAlumnos @auth(level: NO_ACCESS) {
+  alumnos {
+    id
+    nombre
+    email
+  }
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  TODO L3: Query `MisInscripciones`
+# ─────────────────────────────────────────────────────────────────────────────
+query MisInscripciones @auth(level: USER) {
+  alumno(key: { id_expr: "auth.uid" }) {
+    nombre
+    matriculas: matriculas_on_alumno {
+      fecha
+      curso {
+        id
+        titulo
+        nivel
+        horas
+      }
+    }
+  }
+}
